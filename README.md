@@ -64,7 +64,6 @@ pip install -r requirements.txt
 ```bash
 python network_feeder_viewer.py
 ```
-*(On Windows, you can also simply double-click `run.bat`)*
 
 ### 4. Explore the Grid
 Open the generated **`network.html`** in any modern web browser:
@@ -113,7 +112,6 @@ network-feeder-design/
 ├── branches.csv                    # Auto-generated sample branches dataset
 ├── network.html                    # Interactive self-contained web visualizer
 ├── requirements.txt                # Python dependencies (pandas, networkx, pyvis)
-├── run.bat                         # 1-click Windows launcher
 └── README.md                       # Documentation & architecture guide
 ```
 

@@ -83,11 +83,11 @@ def generate_sample_data():
 
     df_nodes = pd.DataFrame(sample_nodes, columns=["bus_id", "label", "kv"])
     df_nodes.to_csv(NODES_FILE, index=False)
-    print(f"  -> Created: {NODES_FILE} ({len(sample_nodes)} buses)")
+    print(f"  -> Created: {NODES_FILE.name} ({len(sample_nodes)} buses)")
 
     df_branches = pd.DataFrame(sample_branches, columns=["from", "to"])
     df_branches.to_csv(BRANCHES_FILE, index=False)
-    print(f"  -> Created: {BRANCHES_FILE} ({len(sample_branches)} branches)")
+    print(f"  -> Created: {BRANCHES_FILE.name} ({len(sample_branches)} branches)")
 
 
 def load_datasets():
@@ -337,7 +337,7 @@ def main():
     print("SUCCESSFUL!")
     print(f"Buses Loaded   : {G.number_of_nodes()}")
     print(f"Branches Loaded: {G.number_of_edges()}")
-    print(f"Output File    : {OUTPUT_HTML}")
+    print(f"Output File    : {OUTPUT_HTML.name}")
     print("Open 'network.html' in your browser to explore.")
     print("=" * 60)
 
