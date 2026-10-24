@@ -1,0 +1,23 @@
+bus_id,label,kv
+SS_CENTRAL_400,Central Bulk Power Substation,400
+BUS_400_NORTH,North Ring 400kV Bus,400
+BUS_400_SOUTH,South Ring 400kV Bus,400
+SS_220_IND,Industrial Corridor 220kV Substation,220
+SS_220_WEST,West Valley 220kV Substation,220
+SS_220_EAST,East Bay 220kV Substation,220
+BUS_132_METRO,Metro Transit 132kV Feeder,132
+BUS_132_TECH,Tech Park 132kV Feeder,132
+BUS_132_RES_A,Residential Zone 132kV Substation,132
+BUS_132_RES_B,Greenfield 132kV Substation,132
+BUS_132_PORT,Harbor Dock 132kV Substation,132
+FEEDER_33_A1,Commercial Mall 33kV Feeder,33
+FEEDER_33_A2,Hospital Medical 33kV Feeder,33
+FEEDER_33_B1,Suburban North 33kV Line,33
+FEEDER_33_B2,Suburban South 33kV Line,33
+FEEDER_33_SOLAR,Solar Farm 33kV Collector,33
+FEEDER_33_WIND,Wind Farm 33kV Collector,33
+FEEDER_33_IND1,Steel Rolling Mill 33kV,33
+FEEDER_33_IND2,Chemical Plant 33kV,33
+DIST_11_TOWN,Old Town 11kV Feeder,11
+DIST_11_UNIV,University Campus 11kV Feeder,11
+DIST_11_WATER,Water Pumping Station 11kV,11

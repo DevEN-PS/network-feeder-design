@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 1000px;
+                 background-color: #111111;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#FF3333", "font": {"color": "white"}, "id": "SS_CENTRAL_400", "label": "Central Bulk Power Substation", "physics": true, "shape": "dot", "size": 35, "title": "\u003cb\u003eCentral Bulk Power Substation\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eSS_CENTRAL_400\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e400 kV\u003c/b\u003e\u003cbr\u003e\u003cspan style=\u0027color:#FF3333;\u0027\u003e\u2605 Root Bulk Power Substation\u003c/span\u003e", "x": 0.0, "y": 0.0}, {"color": "#00FFFF", "font": {"color": "white"}, "id": "BUS_400_NORTH", "label": "North Ring 400kV Bus", "physics": true, "shape": "dot", "size": 28, "title": "\u003cb\u003eNorth Ring 400kV Bus\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eBUS_400_NORTH\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e400 kV\u003c/b\u003e", "x": -90.0, "y": 220.0}, {"color": "#00FFFF", "font": {"color": "white"}, "id": "BUS_400_SOUTH", "label": "South Ring 400kV Bus", "physics": true, "shape": "dot", "size": 28, "title": "\u003cb\u003eSouth Ring 400kV Bus\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eBUS_400_SOUTH\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e400 kV\u003c/b\u003e", "x": 90.0, "y": 220.0}, {"color": "#00FF00", "font": {"color": "white"}, "id": "SS_220_IND", "label": "Industrial Corridor 220kV Substation", "physics": true, "shape": "dot", "size": 22, "title": "\u003cb\u003eIndustrial Corridor 220kV Substation\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eSS_220_IND\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e220 kV\u003c/b\u003e", "x": -180.0, "y": 440.0}, {"color": "#00FF00", "font": {"color": "white"}, "id": "SS_220_WEST", "label": "West Valley 220kV Substation", "physics": true, "shape": "dot", "size": 22, "title": "\u003cb\u003eWest Valley 220kV Substation\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eSS_220_WEST\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e220 kV\u003c/b\u003e", "x": 0.0, "y": 440.0}, {"color": "#00FF00", "font": {"color": "white"}, "id": "SS_220_EAST", "label": "East Bay 220kV Substation", "physics": true, "shape": "dot", "size": 22, "title": "\u003cb\u003eEast Bay 220kV Substation\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eSS_220_EAST\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e220 kV\u003c/b\u003e", "x": 180.0, "y": 440.0}, {"color": "#FFFF00", "font": {"color": "white"}, "id": "BUS_132_METRO", "label": "Metro Transit 132kV Feeder", "physics": true, "shape": "dot", "size": 18, "title": "\u003cb\u003eMetro Transit 132kV Feeder\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eBUS_132_METRO\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e132 kV\u003c/b\u003e", "x": -360.0, "y": 660.0}, {"color": "#FFFF00", "font": {"color": "white"}, "id": "BUS_132_TECH", "label": "Tech Park 132kV Feeder", "physics": true, "shape": "dot", "size": 18, "title": "\u003cb\u003eTech Park 132kV Feeder\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eBUS_132_TECH\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e132 kV\u003c/b\u003e", "x": -180.0, "y": 660.0}, {"color": "#FFFF00", "font": {"color": "white"}, "id": "BUS_132_RES_A", "label": "Residential Zone 132kV Substation", "physics": true, "shape": "dot", "size": 18, "title": "\u003cb\u003eResidential Zone 132kV Substation\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eBUS_132_RES_A\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e132 kV\u003c/b\u003e", "x": 180.0, "y": 660.0}, {"color": "#FFFF00", "font": {"color": "white"}, "id": "BUS_132_RES_B", "label": "Greenfield 132kV Substation", "physics": true, "shape": "dot", "size": 18, "title": "\u003cb\u003eGreenfield 132kV Substation\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eBUS_132_RES_B\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e132 kV\u003c/b\u003e", "x": 360.0, "y": 660.0}, {"color": "#FFFF00", "font": {"color": "white"}, "id": "BUS_132_PORT", "label": "Harbor Dock 132kV Substation", "physics": true, "shape": "dot", "size": 18, "title": "\u003cb\u003eHarbor Dock 132kV Substation\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eBUS_132_PORT\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e132 kV\u003c/b\u003e", "x": 0.0, "y": 660.0}, {"color": "#FFA500", "font": {"color": "white"}, "id": "FEEDER_33_A1", "label": "Commercial Mall 33kV Feeder", "physics": true, "shape": "dot", "size": 14, "title": "\u003cb\u003eCommercial Mall 33kV Feeder\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eFEEDER_33_A1\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e33 kV\u003c/b\u003e", "x": -630.0, "y": 880.0}, {"color": "#FFA500", "font": {"color": "white"}, "id": "FEEDER_33_A2", "label": "Hospital Medical 33kV Feeder", "physics": true, "shape": "dot", "size": 14, "title": "\u003cb\u003eHospital Medical 33kV Feeder\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eFEEDER_33_A2\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e33 kV\u003c/b\u003e", "x": -450.0, "y": 880.0}, {"color": "#FFA500", "font": {"color": "white"}, "id": "FEEDER_33_B1", "label": "Suburban North 33kV Line", "physics": true, "shape": "dot", "size": 14, "title": "\u003cb\u003eSuburban North 33kV Line\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eFEEDER_33_B1\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e33 kV\u003c/b\u003e", "x": 270.0, "y": 880.0}, {"color": "#FFA500", "font": {"color": "white"}, "id": "FEEDER_33_B2", "label": "Suburban South 33kV Line", "physics": true, "shape": "dot", "size": 14, "title": "\u003cb\u003eSuburban South 33kV Line\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eFEEDER_33_B2\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e33 kV\u003c/b\u003e", "x": 450.0, "y": 880.0}, {"color": "#FFA500", "font": {"color": "white"}, "id": "FEEDER_33_SOLAR", "label": "Solar Farm 33kV Collector", "physics": true, "shape": "dot", "size": 14, "title": "\u003cb\u003eSolar Farm 33kV Collector\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eFEEDER_33_SOLAR\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e33 kV\u003c/b\u003e", "x": -90.0, "y": 880.0}, {"color": "#FFA500", "font": {"color": "white"}, "id": "FEEDER_33_WIND", "label": "Wind Farm 33kV Collector", "physics": true, "shape": "dot", "size": 14, "title": "\u003cb\u003eWind Farm 33kV Collector\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eFEEDER_33_WIND\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e33 kV\u003c/b\u003e", "x": 630.0, "y": 880.0}, {"color": "#FFA500", "font": {"color": "white"}, "id": "FEEDER_33_IND1", "label": "Steel Rolling Mill 33kV", "physics": true, "shape": "dot", "size": 14, "title": "\u003cb\u003eSteel Rolling Mill 33kV\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eFEEDER_33_IND1\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e33 kV\u003c/b\u003e", "x": -270.0, "y": 880.0}, {"color": "#FFA500", "font": {"color": "white"}, "id": "FEEDER_33_IND2", "label": "Chemical Plant 33kV", "physics": true, "shape": "dot", "size": 14, "title": "\u003cb\u003eChemical Plant 33kV\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eFEEDER_33_IND2\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e33 kV\u003c/b\u003e", "x": 90.0, "y": 880.0}, {"color": "#FF7043", "font": {"color": "white"}, "id": "DIST_11_TOWN", "label": "Old Town 11kV Feeder", "physics": true, "shape": "dot", "size": 13, "title": "\u003cb\u003eOld Town 11kV Feeder\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eDIST_11_TOWN\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e11 kV\u003c/b\u003e", "x": 180.0, "y": 1100.0}, {"color": "#FF7043", "font": {"color": "white"}, "id": "DIST_11_UNIV", "label": "University Campus 11kV Feeder", "physics": true, "shape": "dot", "size": 13, "title": "\u003cb\u003eUniversity Campus 11kV Feeder\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eDIST_11_UNIV\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e11 kV\u003c/b\u003e", "x": 0.0, "y": 1100.0}, {"color": "#FF7043", "font": {"color": "white"}, "id": "DIST_11_WATER", "label": "Water Pumping Station 11kV", "physics": true, "shape": "dot", "size": 13, "title": "\u003cb\u003eWater Pumping Station 11kV\u003c/b\u003e\u003cbr\u003eBus ID: \u003ccode\u003eDIST_11_WATER\u003c/code\u003e\u003cbr\u003eVoltage: \u003cb\u003e11 kV\u003c/b\u003e", "x": -180.0, "y": 1100.0}]);
+                  edges = new vis.DataSet([{"color": "#555555", "from": "SS_CENTRAL_400", "physics": true, "to": "BUS_400_NORTH", "width": 2}, {"color": "#555555", "from": "SS_CENTRAL_400", "physics": true, "to": "BUS_400_SOUTH", "width": 2}, {"color": "#555555", "from": "BUS_400_NORTH", "physics": true, "to": "BUS_400_SOUTH", "width": 2}, {"color": "#555555", "from": "BUS_400_NORTH", "physics": true, "to": "SS_220_IND", "width": 2}, {"color": "#555555", "from": "BUS_400_NORTH", "physics": true, "to": "SS_220_WEST", "width": 2}, {"color": "#555555", "from": "BUS_400_SOUTH", "physics": true, "to": "SS_220_EAST", "width": 2}, {"color": "#555555", "from": "SS_220_IND", "physics": true, "to": "BUS_132_METRO", "width": 2}, {"color": "#555555", "from": "SS_220_IND", "physics": true, "to": "BUS_132_TECH", "width": 2}, {"color": "#555555", "from": "SS_220_WEST", "physics": true, "to": "BUS_132_RES_A", "width": 2}, {"color": "#555555", "from": "SS_220_WEST", "physics": true, "to": "BUS_132_PORT", "width": 2}, {"color": "#555555", "from": "SS_220_EAST", "physics": true, "to": "BUS_132_RES_B", "width": 2}, {"color": "#555555", "from": "BUS_132_METRO", "physics": true, "to": "FEEDER_33_A1", "width": 2}, {"color": "#555555", "from": "BUS_132_METRO", "physics": true, "to": "FEEDER_33_A2", "width": 2}, {"color": "#555555", "from": "BUS_132_TECH", "physics": true, "to": "FEEDER_33_SOLAR", "width": 2}, {"color": "#555555", "from": "BUS_132_TECH", "physics": true, "to": "FEEDER_33_IND1", "width": 2}, {"color": "#555555", "from": "BUS_132_RES_A", "physics": true, "to": "FEEDER_33_B1", "width": 2}, {"color": "#555555", "from": "BUS_132_RES_B", "physics": true, "to": "FEEDER_33_B2", "width": 2}, {"color": "#555555", "from": "BUS_132_RES_B", "physics": true, "to": "FEEDER_33_WIND", "width": 2}, {"color": "#555555", "from": "BUS_132_PORT", "physics": true, "to": "FEEDER_33_IND2", "width": 2}, {"color": "#555555", "from": "FEEDER_33_A1", "physics": true, "to": "DIST_11_WATER", "width": 2}, {"color": "#555555", "from": "FEEDER_33_A2", "physics": true, "to": "DIST_11_UNIV", "width": 2}, {"color": "#555555", "from": "FEEDER_33_B1", "physics": true, "to": "DIST_11_TOWN", "width": 2}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"barnesHut": {"gravitationalConstant": -2500, "centralGravity": 0.03, "springLength": 140, "springConstant": 0.01, "damping": 0.45}, "solver": "barnesHut", "stabilization": {"enabled": true, "iterations": 400}}, "interaction": {"hover": true, "dragNodes": true, "dragView": true, "zoomView": true}, "nodes": {"font": {"size": 12, "color": "#ffffff"}}, "edges": {"smooth": {"enabled": true, "type": "dynamic"}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
